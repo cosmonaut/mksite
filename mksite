@@ -1,14 +1,12 @@
 #!/bin/sh
-#cat $1$2.$EXT | tr -d '\r' | $FMT
 NAME=$2
 EXT=md
 FMT=markdown
 LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
-#PREFIX=/home/tron/devel/genosite/genosite-28f3d3193b28/test
 PREFIX="/"
-#URL=http://www.suckless.org
-FOOTER="&copy; 2003 - 2008 klystron industries"
+#FOOTER="&copy; 2003 - 2008 klystron industries"
+FOOTER=" "
 export LC_ALL PATH
 
 menu() {
@@ -39,7 +37,6 @@ END
 }
 
 page() {
-	#mtime=`ls -l $1$2.$EXT | awk '{ print $6 " at " $7 }'`
 	mtime=`ls -l --time-style=long-iso $1$2.$EXT | awk '{ print $6 }'`
 	title=`echo $4 | sed 's/.html//'`
 	cat <<END
@@ -88,8 +85,6 @@ process() {
 			else
 				title=$3$base.html
 			fi
-                        #pwd | xargs echo
-                        #echo $1
 			page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
 			;;
 		*/)
@@ -100,8 +95,6 @@ process() {
 		esac
 	done
 }
-
-#mkdir -p "output/"
 
 if [ $1 == ""]
 then
@@ -124,11 +117,6 @@ then
 	cd $1/input
 fi
 
-# for i in `find -type d`
-# do
-#         echo "../output/"$i | xargs mkdir -p
-# done
-
 rsync -av \
     --delete-excluded \
     --progress \
@@ -136,24 +124,6 @@ rsync -av \
     --exclude=*~ \
     . ../output/
 
-# for i in `find -type f ! -regex .*.md ! -regex .*.*\~`
-# do
-#         cp $i ../output/$i
-# done
-
 find . -type l | xargs rm -f
 process "./" "<a href='/'>$NAME/" /
 
-
-# <script type="text/javascript">
-# 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-# 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-# </script>
-# <script type="text/javascript">
-# 	var pageTracker = _gat._getTracker("UA-4071820-1");
-# 	pageTracker._initData();
-# 	pageTracker._trackPageview();
-# </script>
-
-
-#		<!-- &copy; 2003 - 2008 suckless.org community <a href="/hg/rss-log">rss</a> <a href="/hg/atom-log">atom</a> <a href='http://reddit.com/submit?phase=2&url=$URL$4'>reddit</a> &nbsp;&nbsp; generated: $mtime -->
