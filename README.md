@@ -39,8 +39,6 @@ folder.
 TODO
 ====
 
-Add footer input...
-
 At this point there is no easy way to edit the raw html page structure
 without editing the mksite script. This isn't hard to do but it would
 be nicer to use a method like poole which allows the user to edit some
