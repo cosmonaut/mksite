@@ -15,15 +15,16 @@ more robust website generator consider hyde (http://ringce.com/hyde).
 Quick Start
 ===========
 
-Run initsite <project dir> to build a new project directory. In this
-project directory you will find a directory called input with some
-markdown files, a css style file, and a subdirectory in it. Edit these
-(and add more) to your liking. This is where you build your site; do
-all of your work here (adding folders, files etc...). The site name
-and footer are edited by changing config.conf in the project
-directory.
+Run initsite (project dir)
 
-Now run mksite <project dir>
+This builds a new project directory. In this project directory you
+will find a directory called input with some markdown files, a css
+style file, and a subdirectory in it. Edit these (and add more) to
+your liking. This is where you build your site; do all of your work
+here (adding folders, files etc...). The site name and footer are
+edited by changing config.conf in the project directory.
+
+Now run mksite (project dir)
 
 This will create a folder called output in the project directory. This
 contains the actual website and auxiliary files and folders created in
