@@ -104,16 +104,6 @@ else
     exit 1
 fi
 
-
-
-#site name...
-# if [ $NAME == ""]
-# then
-#     echo "Failed to add name input"
-#     echo "Usage: mksite <project dir> <site name>"
-#     exit 1
-# fi
-
 if test $1
 then
         mkdir -p $1/output
