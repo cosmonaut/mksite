@@ -1,0 +1,159 @@
+#!/bin/sh
+#cat $1$2.$EXT | tr -d '\r' | $FMT
+NAME=$2
+EXT=md
+FMT=markdown
+LC_ALL=en_US.UTF-8
+PATH=/bin:/usr/bin:/usr/local/bin
+#PREFIX=/home/tron/devel/genosite/genosite-28f3d3193b28/test
+PREFIX="/"
+#URL=http://www.suckless.org
+FOOTER="&copy; 2003 - 2008 klystron industries"
+export LC_ALL PATH
+
+menu() {
+	for i in `ls -F $1 | grep -v index.$EXT | sort`
+	do
+		case $i in
+		*.$EXT)
+			base=`echo $i | sed "s/.\$EXT$//"`
+			cleanbase=`echo $base | sed 's/_/ /g'`
+			if test "x$base" = "x$2"
+			then
+				echo "<li class='current'><a href='$base.html'>$cleanbase</a></li>"
+			else
+				echo "<li><a href='$base.html'>$cleanbase</a></li>"
+			fi
+			cur=1
+			;;
+		*/)
+			echo "<li><a href='$i'>$i</a></li>"
+			;;
+		esac
+	done
+	cat <<END
+		<li>&nbsp;</li>
+	</ul>
+		</div>
+END
+}
+
+page() {
+	#mtime=`ls -l $1$2.$EXT | awk '{ print $6 " at " $7 }'`
+	mtime=`ls -l --time-style=long-iso $1$2.$EXT | awk '{ print $6 }'`
+	title=`echo $4 | sed 's/.html//'`
+	cat <<END
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>$title</title>
+	<!-- <link type="text/css" rel="stylesheet" href="/style.css"> -->
+	<link type="text/css" rel="stylesheet" href="${PREFIX}style.css"> 
+</head>
+<body>
+<div id="container">
+	<div id="main">
+		<div id="path">$3</a></div>
+		<div id="menu">
+		<ul>
+END
+	menu $1 $2
+cat <<END
+		<div id="content">
+END
+
+        $FMT $1$2.$EXT
+	cat <<END
+		</div>
+	</div>
+	<div id="footer">
+		$FOOTER &nbsp;&middot;&nbsp <a href="http://validator.w3.org/check?uri=referer">Validate</a> &nbsp;&middot;&nbsp; generated: $mtime
+	</div>
+</div>
+</body></html>
+END
+}
+
+process() {
+	for i in `ls -F $1`
+	do
+		case $i in
+		*.$EXT)
+			echo processing $1$i
+			base=`echo $i | sed "s/.\$EXT$//"`
+			if test x$base = xindex
+			then
+				title=$3
+			else
+				title=$3$base.html
+			fi
+                        #pwd | xargs echo
+                        #echo $1
+			page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+			;;
+		*/)
+			process "$1$i" "$2</a> <a href='$PREFIX$1$i'>$i" $3$i
+			;;
+		*)
+			;;
+		esac
+	done
+}
+
+#mkdir -p "output/"
+
+if [ $1 == ""]
+then
+    echo "No project directory given"
+    echo "Usage: mksite <project dir> <site name>"
+    exit 1
+fi
+
+#site name...
+if [ $NAME == ""]
+then
+    echo "Failed to add name input"
+    echo "Usage: mksite <project dir> <site name>"
+    exit 1
+fi
+
+if test $1
+then
+        mkdir -p $1/output
+	cd $1/input
+fi
+
+# for i in `find -type d`
+# do
+#         echo "../output/"$i | xargs mkdir -p
+# done
+
+rsync -av \
+    --delete-excluded \
+    --progress \
+    --exclude=*.md \
+    --exclude=*~ \
+    . ../output/
+
+# for i in `find -type f ! -regex .*.md ! -regex .*.*\~`
+# do
+#         cp $i ../output/$i
+# done
+
+find . -type l | xargs rm -f
+process "./" "<a href='/'>$NAME/" /
+
+
+# <script type="text/javascript">
+# 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+# 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+# </script>
+# <script type="text/javascript">
+# 	var pageTracker = _gat._getTracker("UA-4071820-1");
+# 	pageTracker._initData();
+# 	pageTracker._trackPageview();
+# </script>
+
+
+#		<!-- &copy; 2003 - 2008 suckless.org community <a href="/hg/rss-log">rss</a> <a href="/hg/atom-log">atom</a> <a href='http://reddit.com/submit?phase=2&url=$URL$4'>reddit</a> &nbsp;&nbsp; generated: $mtime -->
