@@ -6,7 +6,7 @@ LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
 PREFIX="/"
 #FOOTER="&copy; 2003 - 2008 klystron industries"
-FOOTER=" "
+FOOTER=""
 export LC_ALL PATH
 
 menu() {
@@ -96,24 +96,36 @@ process() {
 	done
 }
 
-if [ $1 == ""]
+if [ -d $1 ]
 then
+    echo ""
+else
     echo "No project directory given"
     echo "Usage: mksite <project dir> <site name>"
     exit 1
 fi
 
+
+
 #site name...
-if [ $NAME == ""]
-then
-    echo "Failed to add name input"
-    echo "Usage: mksite <project dir> <site name>"
-    exit 1
-fi
+# if [ $NAME == ""]
+# then
+#     echo "Failed to add name input"
+#     echo "Usage: mksite <project dir> <site name>"
+#     exit 1
+# fi
 
 if test $1
 then
         mkdir -p $1/output
+        if [ -e $1/config.conf ]
+        then
+            source $1/config.conf
+        else
+            echo "WARNING: Config file not found!"
+            echo "Please create config.conf in project dir"
+            echo "to configure site name and footer"
+        fi    
 	cd $1/input
 fi
 
@@ -123,6 +135,9 @@ rsync -av \
     --exclude=*.md \
     --exclude=*~ \
     . ../output/
+
+echo ""
+echo ""
 
 find . -type l | xargs rm -f
 process "./" "<a href='/'>$NAME/" /

@@ -3,6 +3,13 @@ LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
 export LC_ALL PATH
 
+config() {
+    cat<<EOF
+NAME="rad"
+FOOTER="&copy; 2010 radical industries"
+EOF
+}
+
 css() {
     cat <<END
 html {
@@ -186,6 +193,7 @@ END
 init() {
     echo "Generating input"
     cd $1
+    config > config.conf
     mkdir -p input
     cd input
     css > style.css
