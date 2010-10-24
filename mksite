@@ -1,11 +1,10 @@
 #!/bin/sh
-NAME=$2
+NAME=""
 EXT=md
 FMT=markdown
 LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
 PREFIX="/"
-#FOOTER="&copy; 2003 - 2008 klystron industries"
 FOOTER=""
 export LC_ALL PATH
 
