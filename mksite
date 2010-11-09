@@ -44,7 +44,6 @@ page() {
 <head>
 	<meta charset="utf-8">
 	<title>$title</title>
-	<!-- <link type="text/css" rel="stylesheet" href="/style.css"> -->
 	<link type="text/css" rel="stylesheet" href="${PREFIX}style.css"> 
 </head>
 <body>
