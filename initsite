@@ -13,145 +13,145 @@ EOF
 css() {
     cat <<END
 html {
-	margin: 0;
-	padding: 0;
-	border: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
 }
 body {
-	font-family: Arial, Verdana, sans-serif;
-	font-size:  1em;
-	background-color: #eeeeee;
-	color: #222222;
-	padding: 0;
-	margin: 0;
+        font-family: Arial, Verdana, sans-serif;
+        font-size:  1em;
+        background-color: #eeeeee;
+        color: #222222;
+        padding: 0;
+        margin: 0;
 }
-img { 
-	border: 0; 
+img {
+        border: 0;
 }
 a {
-	background-color: inherit; 
-	color: #0066ff;
-	text-decoration: none;
+        background-color: inherit;
+        color: #0066ff;
+        text-decoration: none;
 }
 #container {
-	background-color: #eeeeee;
-	border: 0;
-	margin: 5px auto 1em auto;
-	padding: 0;
-	color: inherit;
-	min-width: 600px;
-	max-width: 1200px;
-	width: 95%;
+        background-color: #eeeeee;
+        border: 0;
+        margin: 5px auto 1em auto;
+        padding: 0;
+        color: inherit;
+        min-width: 600px;
+        max-width: 1200px;
+        width: 95%;
 }
 .edit {
-	font-size: .7em;
-	color: #dddddd;
+        font-size: .7em;
+        color: #dddddd;
 }
 #main {
-	margin: 0;
-	padding: 0;
-	background-color: #eeeeee;
-	/* stretch up main div to accomodate the floats */
-	overflow: auto;
-	width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #eeeeee;
+        /* stretch up main div to accomodate the floats */
+        overflow: auto;
+        width: 100%;
 }
 #menu {
-	/* hack for fixing doubled float-margin in IE5/6 */
-	display: inline;
-	float: right;
-	width: 201px;
-	color: inherit;
-	text-align: right;
-	margin: 10px 10px 10px 0;
-	font-size: 0.9em;
+        /* hack for fixing doubled float-margin in IE5/6 */
+        display: inline;
+        float: right;
+        width: 201px;
+        color: inherit;
+        text-align: right;
+        margin: 10px 10px 10px 0;
+        font-size: 0.9em;
 }
-	#menu a {
-		color: #0066ff;
-	}
-	#menu ul {
+        #menu a {
+                color: #0066ff;
+        }
+        #menu ul {
                 margin: 0;
-		padding: 0;
-	}
-	#menu li {
-		padding: .1em .5em .1em .5em;
-		list-style: none;
-		border-right: 1px solid #dddddd;
-	}
-		#menu li.path {
-			text-align: left;
-			color: inherit;
-			background-color: #dddddd;
-			font-weight: bold;
-		}
-			#menu li.path a {
-				color: #666666;
-			}
-		#menu li.current {
-			color: #0066ff;
-			/* color: #0066ff; */
-			background-color: #ffffff;
-			border-width: 1px 1px 1px 1px;
-			border: 1px solid #dddddd;
-			/* border-left: 1px solid #ffffff; */
-			font-weight: bold;
-		}
-		#menu li.current a {
-			background-color: inherit;
-			color: #0066ff;
-		}
+                padding: 0;
+        }
+        #menu li {
+                padding: .1em .5em .1em .5em;
+                list-style: none;
+                border-right: 1px solid #dddddd;
+        }
+                #menu li.path {
+                        text-align: left;
+                        color: inherit;
+                        background-color: #dddddd;
+                        font-weight: bold;
+                }
+                        #menu li.path a {
+                                color: #666666;
+                        }
+                #menu li.current {
+                        color: #0066ff;
+                        /* color: #0066ff; */
+                        background-color: #ffffff;
+                        border-width: 1px 1px 1px 1px;
+                        border: 1px solid #dddddd;
+                        /* border-left: 1px solid #ffffff; */
+                        font-weight: bold;
+                }
+                #menu li.current a {
+                        background-color: inherit;
+                        color: #0066ff;
+                }
 #content {
-	padding: 10px;
-	margin: 10px 210px 10px 10px;
-	background-color: #ffffff;
-	border: 1px solid #dddddd;
-	text-align: justify;
+        padding: 10px;
+        margin: 10px 210px 10px 10px;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        text-align: justify;
 }
-	#content a {
-		text-decoration: none;
-		color: #0066ff;
-	}
-	#content p {
-		margin: .5em 0;
-	}
-	#content h1 {
-		background-color: inherit;
-		text-align: left;
-		font-size: 1.5em;
-		font-weight: normal;
-	}
-	#content h2 {
-		margin: 1em 0 0 0;
-		font-size: 1.2em;
-		font-weight: normal;
-	}
-	#content h2 {
+        #content a {
+                text-decoration: none;
+                color: #0066ff;
+        }
+        #content p {
+                margin: .5em 0;
+        }
+        #content h1 {
+                background-color: inherit;
+                text-align: left;
+                font-size: 1.5em;
+                font-weight: normal;
+        }
+        #content h2 {
+                margin: 1em 0 0 0;
+                font-size: 1.2em;
+                font-weight: normal;
+        }
+        #content h2 {
         color: #444;
-		text-transform: uppercase;
-	}
-	#content h3 {
-		font-weight: normal;
+                text-transform: uppercase;
+        }
+        #content h3 {
+                font-weight: normal;
         border-bottom: 1px #cccccc dotted;
-		color: #666666;
-	}
+                color: #666666;
+        }
 #footer {
-	clear: both;
-	padding: 10px 10px 10px 10px;
-	margin-bottom: 0px;
-	font-size: x-small;
-	background-color: #eeeeee;
-	color: #666666;
-	text-align: center;
+        clear: both;
+        padding: 10px 10px 10px 10px;
+        margin-bottom: 0px;
+        font-size: x-small;
+        background-color: #eeeeee;
+        color: #666666;
+        text-align: center;
 }
-	#footer a {
-		color: #666666;
-		text-decoration: underline;
-	}
+        #footer a {
+                color: #666666;
+                text-decoration: underline;
+        }
 
 END
 }
 
-demopage() { 
-    cat <<END 
+demopage() {
+    cat <<END
 ##Test Page
 
 Lorem ipsum dolor sit amet, consectetur
@@ -170,8 +170,8 @@ fringilla blandit. Duis dictum odio id massa eleifend venenatis.
 END
 }
 
-expage() { 
-    cat <<END 
+expage() {
+    cat <<END
 ##Example sub page
 
 Lorem ipsum dolor sit amet, consectetur
@@ -211,4 +211,3 @@ else
     mkdir -p $1
     init $1
 fi
-
