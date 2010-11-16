@@ -63,7 +63,7 @@ END
 		</div>
 	</div>
 	<div id="footer">
-		$FOOTER &nbsp;&middot;&nbsp <a href="http://validator.w3.org/check?uri=referer">Validate</a> &nbsp;&middot;&nbsp; generated: $mtime
+		$FOOTER &nbsp;&middot;&nbsp; <a href="http://validator.w3.org/check?uri=referer">Validate</a> &nbsp;&middot;&nbsp; generated: $mtime
 	</div>
 </div>
 </body></html>
@@ -99,7 +99,7 @@ then
     echo ""
 else
     echo "No project directory given"
-    echo "Usage: mksite <project dir> <site name>"
+    echo "Usage: mksite <project dir>"
     exit 1
 fi
 
