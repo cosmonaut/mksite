@@ -5,6 +5,8 @@ export LC_ALL PATH
 
 config() {
     cat<<EOF
+#Prefix defines the root path for the website
+PREFIX="/"
 NAME="rad"
 FOOTER="&copy; 2010 radical industries"
 EOF
