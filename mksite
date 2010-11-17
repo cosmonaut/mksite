@@ -129,4 +129,4 @@ echo ""
 echo ""
 
 find . -type l | xargs rm -f
-process "./" "<a href='/'>$NAME/" /
+process "./" "<a href='$PREFIX'>$NAME/" /
