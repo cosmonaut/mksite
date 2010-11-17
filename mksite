@@ -84,7 +84,6 @@ process() {
                                 title=$3$base.html
                         fi
                         page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
-                        echo "$2"
                         ;;
                 */)
                         process "$1$i" "$2</a> <a href='$PREFIX${1#??}$i'>$i" $3$i
