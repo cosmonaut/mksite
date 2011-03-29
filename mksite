@@ -29,7 +29,6 @@ menu() {
                 esac
         done
         cat <<END
-                <li>&nbsp;</li>
                 </ul>
                 </div>
 END
