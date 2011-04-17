@@ -11,6 +11,22 @@ REBUILD=1
 CLEAN=1
 export LC_ALL PATH
 
+usage() {
+    cat <<EOF
+Usage: mksite <site dir> [OPTIONS]
+
+Options:
+  -h, -help, --help    display this message and exit
+  --clean              Removes html files in output that 
+                       don't match markdown files in input
+  --rebuild            Completely rebuild the site: All
+                       html files are regenerated. The cache
+                       is rebuilt. This option also implies
+                       --clean.
+
+EOF
+}
+
 menu() {
         for i in `ls -F $1 | grep -v index.$EXT | sort`
         do
@@ -183,11 +199,16 @@ process() {
 
 for args; do
     case $args in
-        --rebuild)
+        --rebuild|-r)
             REBUILD=0
-            ;;
-        --clean)
             CLEAN=0
+            ;;
+        --clean|-c)
+            CLEAN=0
+            ;;
+        --help|-help|-h)
+            usage
+            exit
             ;;
     esac
 done
