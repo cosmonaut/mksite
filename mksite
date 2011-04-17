@@ -4,8 +4,11 @@ EXT=md
 FMT=markdown
 LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
+ABSPATH=""
 PREFIX="/"
 FOOTER=""
+REBUILD=1
+CLEAN=1
 export LC_ALL PATH
 
 menu() {
@@ -70,20 +73,104 @@ END
 END
 }
 
+cached() {
+    exists=1
+    while read line; do
+        linea=(${line// / })
+        sha=`sha1sum $1`
+        sha=(${sha// / })
+        if [ ${linea[1]} == $1 ]
+        then
+            if [ ${linea[0]} == ${sha[0]} ]; then
+                exists=0
+                break
+            else
+                sed -ie "\|^$line\$|d" $ABSPATH/.cache
+            fi
+        fi
+    done < $ABSPATH/.cache
+
+    if [ $exists -eq 1 ]; then
+        echo `sha1sum $1` >> $ABSPATH/.cache
+        return 1
+    else
+        return 0
+    fi
+}
+
+clean_cache() {
+    echo ""
+    echo "Cleaning cache"
+
+    while read line; do
+        linea=(${line// / })
+        if [ ! -e ${linea[1]} ]; then
+            sed -ie "\|^$line\$|d" $ABSPATH/.cache
+        fi
+    done < $ABSPATH/.cache
+}
+
+clean_html() {
+    echo ""
+    echo "Cleaning output"
+
+    exists=1
+    for i in `find . \( ! -regex '.*/\..*' \) -type f -name \*.html`; do
+        case $i in
+            *.html)
+                #Check against cache.
+
+                while read line; do
+                    linea=(${line// / })
+                    f=`echo ${linea[1]} | awk 'sub("..$", "")'`
+                    f=$f"html"
+
+                    if [ $i == $f ]; then
+                        exists=0
+                        break
+                    fi
+                done < $ABSPATH/.cache
+
+                if [ $exists -eq 1 ]; then
+                    rm -f $i
+                fi
+                exists=1
+                ;;
+            *)
+                ;;
+        esac
+    done
+}
+
 process() {
         for i in `ls -F $1`
         do
                 case $i in
                 *.$EXT)
                         echo processing $1$i
-                        base=`echo $i | sed "s/.\$EXT$//"`
-                        if test x$base = xindex
-                        then
+                        if [ $REBUILD -eq 0 ]; then
+                            echo `sha1sum $1$i` >> $ABSPATH/.cache
+                            base=`echo $i | sed "s/.\$EXT$//"`
+                            if test x$base = xindex
+                            then
                                 title=$3
-                        else
+                            else
                                 title=$3$base.html
+                            fi
+                            page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+                        else
+                            cached $1$i
+                            if [ $? -eq 1 ]; then
+                                base=`echo $i | sed "s/.\$EXT$//"`
+                                if test x$base = xindex
+                                then
+                                    title=$3
+                                else
+                                    title=$3$base.html
+                                fi
+                                page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+                            fi
                         fi
-                        page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
                         ;;
                 */)
                         process "$1$i" "$2</a> <a href='$PREFIX${1#??}$i'>$i" $3$i
@@ -94,9 +181,20 @@ process() {
         done
 }
 
+for args; do
+    case $args in
+        --rebuild)
+            REBUILD=0
+            ;;
+        --clean)
+            CLEAN=0
+            ;;
+    esac
+done
+
 if [ -d $1 ]
 then
-    echo ""
+    ABSPATH=`readlink -f $1`
 else
     echo "No project directory given"
     echo "Usage: mksite <project dir>"
@@ -114,18 +212,43 @@ then
             echo "Please create config.conf in project dir"
             echo "to configure site name and footer"
         fi
+        if [ ! -e $1/.cache ]
+        then
+            touch $1/.cache
+        fi
         cd $1/input
 fi
 
-rsync -av \
-    --delete-excluded \
-    --progress \
-    --exclude=*.md \
-    --exclude=*~ \
-    . ../output/
+if [ $REBUILD -eq 1 ]; then
+    rsync -av \
+        --progress \
+        --exclude=*.md \
+        --exclude=*~ \
+        --exclude=*.html \
+        --delete-after \
+        . ../output/
+else
+    rm -f $ABSPATH/.cache
+    touch $ABSPATH/.cache
+    rsync -av \
+        --progress \
+        --exclude=*.md \
+        --exclude=*~ \
+        --exclude=*.html \
+        --delete-excluded \
+        . ../output/
+fi
 
 echo ""
 echo ""
 
 find . -type l | xargs rm -f
 process "./" "<a href='$PREFIX'>$NAME/" /
+
+clean_cache
+
+if [ $CLEAN -eq 0 ]; then
+    # Clean html files that don't match input dir
+    cd ../output
+    clean_html
+fi
