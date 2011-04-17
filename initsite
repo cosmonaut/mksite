@@ -3,12 +3,21 @@ LC_ALL=en_US.UTF-8
 PATH=/bin:/usr/bin:/usr/local/bin
 export LC_ALL PATH
 
+usage() {
+    cat <<EOF
+Usage: initsite <dir>
+
+This builds a new project directory and writes
+example files and a configuration to it.
+EOF
+}
+
 config() {
     cat<<EOF
 #Prefix defines the root path for the website
 PREFIX="/"
 NAME="rad"
-FOOTER="&copy; 2010 radical industries"
+FOOTER="&copy; 2011 radical industries"
 EOF
 }
 
@@ -204,6 +213,15 @@ init() {
     mkdir -p subdir
     demopage > subdir/index.md
 }
+
+for args; do
+    case $args in
+        --help|-help|-h)
+            usage
+            exit
+            ;;
+    esac
+done
 
 if [ -d $1 ]
 then
