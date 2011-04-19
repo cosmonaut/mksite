@@ -3,7 +3,8 @@
 <head>
         <meta charset="utf-8">
         <title>/usage</title>
-        <link type="text/css" rel="stylesheet" href="/mksite/style.css">
+        <link type="text/css" rel="stylesheet" href="/mksite/style.css"/>
+        <link rel="icon" type="image/png" href="/mksite/favicon.ico"/>
 </head>
 <body>
 <div id="container">
@@ -13,7 +14,6 @@
                 <ul>
 <li><a href='dependencies.html'>dependencies</a></li>
 <li class='current'><a href='usage.html'>usage</a></li>
-                <li>&nbsp;</li>
                 </ul>
                 </div>
                 <div id="content">
@@ -34,10 +34,19 @@ files in then use the standard linux naming convention
 site menu. Anytime you update the input folder run mksite <proj-dir>
 to update the output folder. If you delete files in input they will be
 removed from output because mksite uses rsync to create the output
-folder.</p>                </div>
+folder.</p>
+<p>New changes with version 0.5</p>
+<p>There are two new options that come with mksite. These are --rebuild
+and --clean. The --clean option will remove any html files in output
+that don't correspond to a markdown file in input. A cache is now used
+to track changed files in mksite and reduce the generation time for
+large sites. Now only files that have been changed since last
+generated will be regenerated. The --rebuild option forces
+regeneration of all markdown files and also forces an output directory
+cleaning.</p>                </div>
         </div>
         <div id="footer">
-                &copy; 2010 radical industries &nbsp;&middot;&nbsp; <a href="http://validator.w3.org/check?uri=referer">Validate</a> &nbsp;&middot;&nbsp; generated: 2010-11-17
+                &copy; 2010-2011 radical industries &nbsp;&middot;&nbsp; <a href="http://validator.w3.org/check?uri=referer">Validate</a> &nbsp;&middot;&nbsp; generated: 2011-04-19
         </div>
 </div>
 </body></html>
