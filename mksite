@@ -101,7 +101,7 @@ cached() {
                 exists=0
                 break
             else
-                sed -ie "\|^$line\$|d" $ABSPATH/.cache
+                sed -i "\|^$line\$|d" $ABSPATH/.cache
             fi
         fi
     done < $ABSPATH/.cache
@@ -121,7 +121,7 @@ clean_cache() {
     while read line; do
         linea=(${line// / })
         if [ ! -e ${linea[1]} ]; then
-            sed -ie "\|^$line\$|d" $ABSPATH/.cache
+            sed -i "\|^$line\$|d" $ABSPATH/.cache
         fi
     done < $ABSPATH/.cache
 }
