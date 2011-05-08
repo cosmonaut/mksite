@@ -28,26 +28,26 @@ EOF
 }
 
 menu() {
-        for i in `ls -F $1 | grep -v index.$EXT | sort`
-        do
-                case $i in
-                *.$EXT)
-                        base=`echo $i | sed "s/.\$EXT$//"`
-                        cleanbase=`echo $base | sed 's/_/ /g'`
-                        if test "x$base" = "x$2"
-                        then
-                                echo "<li class='current'><a href='$base.html'>$cleanbase</a></li>"
-                        else
-                                echo "<li><a href='$base.html'>$cleanbase</a></li>"
-                        fi
-                        cur=1
-                        ;;
-                */)
-                        echo "<li><a href='$i'>$i</a></li>"
-                        ;;
-                esac
-        done
-        cat <<END
+    for i in `ls -F $1 | grep -v index.$EXT | sort`
+    do
+        case $i in
+            *.$EXT)
+                base=`echo $i | sed "s/.\$EXT$//"`
+                cleanbase=`echo $base | sed 's/_/ /g'`
+                if test "x$base" = "x$2"
+                then
+                    echo "<li class='current'><a href='$base.html'>$cleanbase</a></li>"
+                else
+                    echo "<li><a href='$base.html'>$cleanbase</a></li>"
+                fi
+                cur=1
+                ;;
+            */)
+                echo "<li><a href='$i'>$i</a></li>"
+                ;;
+        esac
+    done
+    cat <<END
                 </ul>
                 </div>
 END
@@ -159,42 +159,42 @@ clean_html() {
 }
 
 process() {
-        for i in `ls -F $1`
-        do
-                case $i in
-                *.$EXT)
-                        echo processing $1$i
-                        if [ $REBUILD -eq 0 ]; then
-                            echo `sha1sum $1$i` >> $ABSPATH/.cache
-                            base=`echo $i | sed "s/.\$EXT$//"`
-                            if test x$base = xindex
-                            then
-                                title=$3
-                            else
-                                title=$3$base.html
-                            fi
-                            page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+    for i in `ls -F $1`
+    do
+        case $i in
+            *.$EXT)
+                echo processing $1$i
+                if [ $REBUILD -eq 0 ]; then
+                    echo `sha1sum $1$i` >> $ABSPATH/.cache
+                    base=`echo $i | sed "s/.\$EXT$//"`
+                    if test x$base = xindex
+                    then
+                        title=$3
+                    else
+                        title=$3$base.html
+                    fi
+                    page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+                else
+                    cached $1$i
+                    if [ $? -eq 1 ]; then
+                        base=`echo $i | sed "s/.\$EXT$//"`
+                        if test x$base = xindex
+                        then
+                            title=$3
                         else
-                            cached $1$i
-                            if [ $? -eq 1 ]; then
-                                base=`echo $i | sed "s/.\$EXT$//"`
-                                if test x$base = xindex
-                                then
-                                    title=$3
-                                else
-                                    title=$3$base.html
-                                fi
-                                page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
-                            fi
+                            title=$3$base.html
                         fi
-                        ;;
+                        page "$1" "$base" "$2" "$title" > "../output/$1$base.html"
+                    fi
+                fi
+                ;;
                 */)
-                        process "$1$i" "$2</a> <a href='$PREFIX${1#??}$i'>$i" $3$i
-                        ;;
+                    process "$1$i" "$2</a> <a href='$PREFIX${1#??}$i'>$i" $3$i
+                    ;;
                 *)
-                        ;;
-                esac
-        done
+                    ;;
+        esac
+    done
 }
 
 for args; do
@@ -224,20 +224,20 @@ fi
 
 if test $1
 then
-        mkdir -p $1/output
-        if [ -e $1/config.conf ]
-        then
-            source $1/config.conf
-        else
-            echo "WARNING: Config file not found!"
-            echo "Please create config.conf in project dir"
-            echo "to configure site name and footer"
-        fi
-        if [ ! -e $1/.cache ]
-        then
-            touch $1/.cache
-        fi
-        cd $1/input
+    mkdir -p $1/output
+    if [ -e $1/config.conf ]
+    then
+        source $1/config.conf
+    else
+        echo "WARNING: Config file not found!"
+        echo "Please create config.conf in project dir"
+        echo "to configure site name and footer"
+    fi
+    if [ ! -e $1/.cache ]
+    then
+        touch $1/.cache
+    fi
+    cd $1/input
 fi
 
 if [ $REBUILD -eq 1 ]; then
